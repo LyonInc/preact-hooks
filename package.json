@@ -1,0 +1,62 @@
+{
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "license": "MIT",
+  "keywords": [
+    "pridepack",
+    "preact-hooks",
+    "preact",
+    "hooks"
+  ],
+  "name": "@lyonph/preact-hooks",
+  "module": "dist/preact-hooks.esm.js",
+  "exports": {
+    "require": "./dist/index.js",
+    "imports": "./dist/preact-hooks.esm.js"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/preact": "^2.0.1",
+    "@testing-library/preact-hooks": "^1.1.0",
+    "@types/jest": "^26.0.19",
+    "@types/node": "^14.14.14",
+    "eslint": "^7.16.0",
+    "eslint-config-lxsmnsyc": "^0.1.20",
+    "preact": "^10.5.7",
+    "pridepack": "^0.5.0",
+    "ts-jest": "^26.4.4",
+    "tslib": "^2.0.3",
+    "typescript": "^4.1.3"
+  },
+  "peerDependencies": {
+    "preact": "^10.5.7"
+  },
+  "scripts": {
+    "prepublish": "pridepack build",
+    "build": "pridepack build",
+    "type-check": "pridepack check",
+    "lint": "pridepack lint",
+    "test": "pridepack test --passWithNoTests",
+    "clean": "pridepack clean",
+    "watch": "pridepack watch"
+  },
+  "description": "Collection of useful Preact Hooks",
+  "repository": "https://github.com/LyonInc/preact-hooks.git",
+  "homepage": "https://github.com/LyonInc/preact-hooks",
+  "bugs": {
+    "url": "https://github.com/LyonInc/preact-hooks/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Lyon Software Technologies, Inc. <corporate@lyon.com.ph>",
+  "private": false
+}
