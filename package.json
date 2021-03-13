@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -20,7 +20,7 @@
   "module": "dist/preact-hooks.esm.js",
   "exports": {
     "require": "./dist/index.js",
-    "imports": "./dist/preact-hooks.esm.js"
+    "import": "./dist/preact-hooks.esm.js"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.6",
