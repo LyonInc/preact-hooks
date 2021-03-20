@@ -1,7 +1,12 @@
 {
-  "version": "0.1.3",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "0.2.0",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "exports": {
+    "import": "./dist/esm/index.js",
+    "require": "./dist/cjs/index.js"
+  },
+  "types": "dist/types/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -17,11 +22,6 @@
     "hooks"
   ],
   "name": "@lyonph/preact-hooks",
-  "module": "dist/preact-hooks.esm.js",
-  "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/preact-hooks.esm.js"
-  },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/preact": "^2.0.1",
@@ -31,7 +31,7 @@
     "eslint": "^7.22.0",
     "eslint-config-lxsmnsyc": "^0.1.20",
     "preact": "^10.5.13",
-    "pridepack": "^0.7.2",
+    "pridepack": "^0.8.0",
     "ts-jest": "^26.5.3",
     "tslib": "^2.1.0",
     "typescript": "^4.2.3"
