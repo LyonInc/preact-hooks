@@ -2,7 +2,7 @@
  * @license
  * MIT License
  *
- * Copyright (c) 2020 Lyon Software Technologies, Inc.
+ * Copyright (c) 2021 Lyon Software Technologies, Inc.
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,10 +23,19 @@
  *
  *
  * @author Lyon Software Technologies, Inc.
- * @copyright Lyon Software Technologies, Inc. 2020
+ * @copyright Lyon Software Technologies, Inc. 2021
  */
-import useMediaQuery from './useMediaQuery';
+import { EffectCallback, useEffect } from 'preact/hooks';
+import { defaultCompare, MemoCompare } from './useFreshLazyRef';
+import useMemoCondition from './useMemoCondition';
 
-export default function usePrefersReducedMotion(): boolean {
-  return useMediaQuery('(prefers-reduced-motion)');
+export default function useEffectCondition<D>(
+  supplier: EffectCallback,
+  dependency: D,
+  shouldUpdate: MemoCompare<D> = defaultCompare,
+): void {
+  const reference = useMemoCondition(() => [], dependency, shouldUpdate);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(supplier, [reference]);
 }

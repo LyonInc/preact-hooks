@@ -2,7 +2,7 @@
  * @license
  * MIT License
  *
- * Copyright (c) 2020 Lyon Software Technologies, Inc.
+ * Copyright (c) 2021 Lyon Software Technologies, Inc.
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -23,10 +23,33 @@
  *
  *
  * @author Lyon Software Technologies, Inc.
- * @copyright Lyon Software Technologies, Inc. 2020
+ * @copyright Lyon Software Technologies, Inc. 2021
  */
-import useMediaQuery from './useMediaQuery';
+import { useDebugValue } from 'preact/hooks';
+import useConstant from './useConstant';
+import useForceUpdate from './useForceUpdate';
 
-export default function usePrefersReducedMotion(): boolean {
-  return useMediaQuery('(prefers-reduced-motion)');
+export default function useReactiveObject<T extends { [key: string]: any }>(
+  supplier: () => T,
+): T {
+  const object = useConstant(supplier);
+
+  const forceUpdate = useForceUpdate();
+
+  const proxyObject = useConstant(() => new Proxy(object, {
+    get(target, property, handler) {
+      return Reflect.get(target, property, handler);
+    },
+    set(target, property, value, receiver) {
+      if (!Object.is(Reflect.get(target, property, receiver), value)) {
+        Reflect.set(target, property, value, receiver);
+        forceUpdate();
+      }
+      return true;
+    },
+  }));
+
+  useDebugValue(proxyObject);
+
+  return proxyObject;
 }
