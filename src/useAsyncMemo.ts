@@ -56,7 +56,7 @@ export default function useAsyncMemo<S, R, F = any>(
 ): AsyncMemoResult<S, F> {
   const [state, setState] = useFreshState<AsyncMemoResult<S, F>, R>(
     () => ({
-      status: 'pending'
+      status: 'pending',
     }),
     dependency,
     shouldUpdate,
@@ -86,7 +86,7 @@ export default function useAsyncMemo<S, R, F = any>(
     return () => {
       mounted = false;
     };
-  }, [request]);
+  }, [request, setState]);
 
   return state;
 }
