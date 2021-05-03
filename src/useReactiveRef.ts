@@ -28,9 +28,12 @@
 import { Ref, useDebugValue } from 'preact/hooks';
 import useConstant from './useConstant';
 import useForceUpdate from './useForceUpdate';
+import useLazyRef from './useLazyRef';
 
-export default function useReactiveRef<T>(ref: Ref<T>): Ref<T> {
+export default function useReactiveRef<T>(supplier: () => T): Ref<T> {
   const forceUpdate = useForceUpdate();
+
+  const ref = useLazyRef(supplier);
 
   const proxyObject = useConstant(() => ({
     get current() {
