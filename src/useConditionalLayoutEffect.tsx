@@ -25,23 +25,17 @@
  * @author Lyon Software Technologies, Inc.
  * @copyright Lyon Software Technologies, Inc. 2021
  */
-import { useRef } from 'preact/hooks';
-import { defaultCompare, MemoCompare } from './useFreshLazyRef';
+import { EffectCallback, useLayoutEffect } from 'preact/hooks';
+import useConditionalMemo from './useConditionalMemo';
+import { defaultCompare, ShouldUpdate } from './useDependencyChanged';
 
-type AnyCallback = (...args: any[]) => any;
+export default function useConditionalLayoutEffect<D>(
+  supplier: EffectCallback,
+  dependency: D,
+  shouldUpdate: ShouldUpdate<D> = defaultCompare,
+): void {
+  const reference = useConditionalMemo(() => [], dependency, shouldUpdate);
 
-export default function useCallbackCondition<T extends AnyCallback, R>(
-  supplier: T,
-  dependency: R,
-  shouldUpdate: MemoCompare<R> = defaultCompare,
-): T {
-  const value = useRef(supplier);
-  const prevDeps = useRef(dependency);
-
-  if (shouldUpdate(prevDeps.current, dependency)) {
-    value.current = supplier;
-    prevDeps.current = dependency;
-  }
-
-  return value.current;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useLayoutEffect(supplier, [reference]);
 }

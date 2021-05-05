@@ -25,21 +25,17 @@
  * @author Lyon Software Technologies, Inc.
  * @copyright Lyon Software Technologies, Inc. 2021
  */
-import { useDebugValue } from 'preact/hooks';
-import useFreshLazyRef, { defaultCompare, MemoCompare } from './useFreshLazyRef';
+import { EffectCallback, useEffect } from 'preact/hooks';
+import useConditionalMemo from './useConditionalMemo';
+import { defaultCompare, ShouldUpdate } from './useDependencyChanged';
 
-export default function useMemoCondition<T, R>(
-  supplier: () => T,
-  dependency: R,
-  shouldUpdate: MemoCompare<R> = defaultCompare,
-): T {
-  const value = useFreshLazyRef(
-    supplier,
-    dependency,
-    shouldUpdate,
-  ).current;
+export default function useConditionalEffect<D>(
+  supplier: EffectCallback,
+  dependency: D,
+  shouldUpdate: ShouldUpdate<D> = defaultCompare,
+): void {
+  const reference = useConditionalMemo(() => [], dependency, shouldUpdate);
 
-  useDebugValue(value);
-
-  return value;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(supplier, [reference]);
 }

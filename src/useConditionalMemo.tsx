@@ -26,44 +26,19 @@
  * @copyright Lyon Software Technologies, Inc. 2021
  */
 import { useDebugValue } from 'preact/hooks';
-import useConditionalMemo from './useConditionalMemo';
-import useSubscription from './useSubscription';
-import IS_CLIENT from './utils/is-client';
+import { defaultCompare, ShouldUpdate } from './useDependencyChanged';
+import useFreshLazyRef from './useFreshLazyRef';
 
-const MEDIA = new Map<string, MediaQueryList>();
-
-function getMediaMatcher(query: string): MediaQueryList {
-  const media = MEDIA.get(query);
-  if (media) {
-    return media;
-  }
-  const newMedia = window.matchMedia(query);
-  MEDIA.set(query, newMedia);
-  return newMedia;
-}
-
-export default function useMediaQuery(query: string): boolean {
-  const media = useConditionalMemo(() => {
-    if (IS_CLIENT) {
-      return getMediaMatcher(query);
-    }
-    return undefined;
-  }, query);
-
-  const subscription = useConditionalMemo(() => ({
-    read: () => !!media?.matches,
-    subscribe: (callback: () => void) => {
-      if (media) {
-        media.addEventListener('change', callback);
-        return () => {
-          media.removeEventListener('change', callback);
-        };
-      }
-      return undefined;
-    },
-  }), media);
-
-  const value = useSubscription(subscription);
+export default function useConditionalMemo<T, R>(
+  supplier: () => T,
+  dependency: R,
+  shouldUpdate: ShouldUpdate<R> = defaultCompare,
+): T {
+  const value = useFreshLazyRef(
+    supplier,
+    dependency,
+    shouldUpdate,
+  ).current;
 
   useDebugValue(value);
 
