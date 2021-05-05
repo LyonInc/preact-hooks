@@ -26,16 +26,16 @@
  * @copyright Lyon Software Technologies, Inc. 2021
  */
 import { EffectCallback, useEffect } from 'preact/hooks';
-import useConditionalMemo from './useConditionalMemo';
 import { defaultCompare, ShouldUpdate } from './useDependencyChanged';
+import useDependencyVersion from './useDependencyVersion';
 
 export default function useConditionalEffect<D>(
   supplier: EffectCallback,
   dependency: D,
   shouldUpdate: ShouldUpdate<D> = defaultCompare,
 ): void {
-  const reference = useConditionalMemo(() => [], dependency, shouldUpdate);
+  const version = useDependencyVersion(dependency, shouldUpdate);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(supplier, [reference]);
+  useEffect(supplier, [version]);
 }
