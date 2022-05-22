@@ -25,7 +25,7 @@
  * @author Lyon Software Technologies, Inc.
  * @copyright Lyon Software Technologies, Inc. 2021
  */
-import { Ref } from 'preact/hooks';
+import { MutableRef } from 'preact/hooks';
 import useDependencyChanged, { defaultCompare, ShouldUpdate } from './useDependencyChanged';
 import useLazyRef from './useLazyRef';
 
@@ -33,7 +33,7 @@ export default function useFreshLazyRef<T, R>(
   supplier: () => T,
   dependency: R,
   shouldUpdate: ShouldUpdate<R> = defaultCompare,
-): Ref<T> {
+): MutableRef<T> {
   const value = useLazyRef(supplier);
   const dependencyChanged = useDependencyChanged(dependency, shouldUpdate);
 

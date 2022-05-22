@@ -25,12 +25,12 @@
  * @author Lyon Software Technologies, Inc.
  * @copyright Lyon Software Technologies, Inc. 2021
  */
-import { Ref, useDebugValue } from 'preact/hooks';
+import { MutableRef, useDebugValue } from 'preact/hooks';
 import useConstant from './useConstant';
 import useForceUpdate from './useForceUpdate';
 import useLazyRef from './useLazyRef';
 
-export default function useReactiveRef<T>(supplier: () => T): Ref<T> {
+export default function useReactiveRef<T>(supplier: () => T): MutableRef<T> {
   const forceUpdate = useForceUpdate();
 
   const ref = useLazyRef(supplier);

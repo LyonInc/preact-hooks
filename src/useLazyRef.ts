@@ -25,15 +25,15 @@
  * @author Lyon Software Technologies, Inc.
  * @copyright Lyon Software Technologies, Inc. 2021
  */
-import { Ref, useDebugValue, useRef } from 'preact/hooks';
+import { MutableRef, useDebugValue, useRef } from 'preact/hooks';
 
 /**
  * a variant of `useRef` that accepts an initializer function instead of
  * the actual initial value.
  * @param supplier A function that supplies the initial state
  */
-export default function useLazyRef<T>(supplier: () => T): Ref<T> {
-  const ref = useRef<Ref<T> | null>();
+export default function useLazyRef<T>(supplier: () => T): MutableRef<T> {
+  const ref = useRef<MutableRef<T> | null>();
 
   if (!ref.current) {
     ref.current = {
